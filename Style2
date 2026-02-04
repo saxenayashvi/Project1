@@ -1,0 +1,226 @@
+import streamlit as st
+
+# Page configuration
+st.set_page_config(
+    page_title="BI4BI",
+    page_icon="📊",
+    layout="centered",
+    initial_sidebar_state="collapsed"
+)
+
+# Custom CSS for modern UI
+st.markdown("""
+<style>
+    /* Hide Streamlit default elements */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    
+    /* Main container styling */
+    .main {
+        background: white;
+        padding: 0;
+    }
+    
+    /* Landing page card */
+    .landing-card {
+        background: #f5f5f5;
+        border-radius: 30px;
+        padding: 80px 60px 60px 60px;
+        max-width: 800px;
+        margin: 100px auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    /* Logo styling */
+    .logo {
+        font-size: 72px;
+        font-weight: 900;
+        color: #1a1a1a;
+        margin-bottom: 40px;
+        letter-spacing: 2px;
+    }
+    
+    /* Description text */
+    .description {
+        font-size: 20px;
+        color: #666;
+        line-height: 1.8;
+        margin-bottom: 50px;
+        font-weight: 400;
+    }
+    
+    /* Begin button */
+    .stButton > button {
+        width: 100%;
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: black;
+        font-size: 24px;
+        font-weight: 700;
+        padding: 20px 60px;
+        border: none;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(255, 215, 0, 0.6);
+    }
+    
+    /* Tool selection page */
+    .tool-page {
+        background: #f5f5f5;
+        border-radius: 30px;
+        padding: 60px 60px 80px 60px;
+        max-width: 900px;
+        margin: 80px auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    }
+    
+    .tool-title {
+        font-size: 48px;
+        font-weight: 700;
+        color: #1a1a1a;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    /* Tool button grid */
+    .tool-button {
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: 20px;
+        padding: 30px;
+        margin: 10px;
+        font-size: 22px;
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    }
+    
+    .tool-button:hover {
+        border-color: #FFD700;
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: black;
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+    }
+    
+    .tool-button.selected {
+        border-color: #FFD700;
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        color: black;
+        box-shadow: 0 10px 30px rgba(255, 215, 0, 0.5);
+    }
+    
+    /* Grid layout */
+    .tool-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 30px;
+    }
+    
+    /* Back button */
+    .back-button {
+        display: inline-block;
+        color: #667eea;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .back-button:hover {
+        color: #764ba2;
+    }
+    
+    /* Search icon */
+    .search-icon {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 20px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Initialize session state
+if 'page' not in st.session_state:
+    st.session_state.page = 'landing'
+if 'selected_tool' not in st.session_state:
+    st.session_state.selected_tool = None
+
+def go_to_tools():
+    st.session_state.page = 'tools'
+
+def go_to_landing():
+    st.session_state.page = 'landing'
+    st.session_state.selected_tool = None
+
+def select_tool(tool):
+    st.session_state.selected_tool = tool
+
+# Landing Page
+if st.session_state.page == 'landing':
+    st.markdown("""
+    <div class="landing-card">
+        <div class="logo">BI4BI</div>
+        <div class="description">
+            BI4BI helps analyze existing BI reports, identify redundancies,
+            and provide recommendations to rationalize and modernize
+            legacy BI environments using metadata-driven insights.
+        </div>
+    """, unsafe_allow_html=True)
+    
+    # Button inside the card
+    if st.button("Begin", key="begin_button"):
+        go_to_tools()
+    
+    st.markdown("</div>", unsafe_allow_html=True)
+
+# Tool Selection Page
+elif st.session_state.page == 'tools':
+    st.markdown("""
+    <div class="tool-page">
+        <div class="tool-title">Choose Tool</div>
+    """, unsafe_allow_html=True)
+    
+    # Tool options
+    tools = [
+        ["Tableau", "Oracle", "Power BI"],
+        ["SAP", "Qlik", "Looker"]
+    ]
+    
+    # Create 2 rows of 3 columns
+    for row in tools:
+        cols = st.columns(3)
+        for idx, tool in enumerate(row):
+            with cols[idx]:
+                # Check if this tool is selected
+                is_selected = st.session_state.selected_tool == tool
+                button_class = "selected" if is_selected else ""
+                
+                # Create clickable tool button
+                if st.button(tool, key=f"tool_{tool}", use_container_width=True):
+                    select_tool(tool)
+                    st.success(f"✓ {tool} selected!")
+    
+    # Back button inside the container
+    st.markdown("<br>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        if st.button("← Back to Home", key="back_button", use_container_width=True):
+            go_to_landing()
+    
+    st.markdown("</div>", unsafe_allow_html=True)

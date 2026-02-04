@@ -1,0 +1,393 @@
+app.py code :-
+
+import streamlit as st
+from pathlib import Path
+
+# ---------------- PAGE CONFIG ----------------
+st.set_page_config(
+    page_title="BI4BI - EY Landing Page",
+    layout="wide"
+)
+
+# ---------------- EY THEME CSS (external) ----------------
+def load_css(file_name: str):
+    css_path = (Path(__file__).parent / file_name).resolve()
+    with css_path.open("r", encoding="utf-8") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+
+load_css("style.css")
+
+# ---------------- MAIN CARD ----------------
+
+# (Optional) top spacing can be removed since we're vertically centering
+# st.markdown("<br><br><br>", unsafe_allow_html=True)
+
+# Begin centering wrapper
+st.markdown('<div class="center-wrapper">', unsafe_allow_html=True)
+
+# Center the card using columns
+col_left, col_center, col_right = st.columns([1, 2.5, 1])
+
+with col_center:
+    # Title
+    st.markdown(
+        """
+        <div class="title">BI4BI</div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Description Text
+    st.markdown(
+        """
+        <div class="desc">
+            BI4BI helps analyze existing BI reports, identify redundancies,
+            and provide recommendations to rationalize and modernize<br>
+            legacy BI environments using metadata-driven insights.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Button Centered
+    col_btn1, col_btn2, col_btn3 = st.columns([1, 2, 1])
+    with col_btn2:
+        st.button("Begin->")
+
+    # Footer
+    st.markdown(
+        """
+        <div class="footer" style="text-align:center;">
+            ©️ 2024 EYGM Limited. All Rights Reserved.
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Close centering wrapper
+st.markdown('</div>', unsafe_allow_html=True)
+
+
+then style.css code-:
+
+
+/* Make the app use full height so we can center vertically */
+/* Force full background to white */
+html, body, .stApp {
+    background-color: #ffffff !important;
+}
+
+
+/* Remove extra Streamlit padding so centering is true middle */
+section.main > div {
+    padding-top: 0;              /* Was 30px in your CSS; set to 0 for true center */
+}
+
+/* Let the main container fill the viewport height */
+.main .block-container {
+    min-height: 100vh;           /* Full viewport height */
+    padding-top: 0;              /* Remove top padding */
+    padding-bottom: 0;           /* Optional: remove bottom padding */
+    display: flex;
+    align-items: center;         /* Vertical center */
+    justify-content: center;     /* Horizontal center for the wrapper we add */
+    flex-direction: column;      /* Keep stacked layout */
+}
+
+/* Wrapper that centers the title block exactly */
+.title-center {
+    width: 100%;
+    display: flex;
+    align-items: center;         /* Vertical center inside this block (if you give it height) */
+    justify-content: center;     /* Horizontal center */
+    text-align: center;
+    min-height: 40vh;            /* Gives the title a tall area; tweak (40–60vh) as desired */
+    margin: 0;
+    padding: 0;
+}
+
+/* Your title styles (cleaned a bit) */
+
+.title {
+    font-size: 55px;
+    font-weight: 700;
+    color: #333333;
+    margin: 0 0 25px 0;   /* 👈 Adds space under the title */
+    line-height: 1.1;
+    text-align: center;
+}
+
+
+
+
+
+
+/* Full background */
+/* Ensure body and main content are white */
+
+/* Remove Streamlit padding */
+section.main > div {
+    padding-top: 30px;
+}
+
+/* Card Styling */
+.card-container {
+    background: #ffffff;
+    padding: 60px 70px;
+    border-radius: 28px;
+    box-shadow: 0px 8px 30px rgba(0,0,0,0.15);
+    width: 850px;
+    margin: auto;
+    text-align: center;
+}
+
+.card {
+    background: #ffffff;
+    padding: 60px 70px;
+    border-radius: 28px;
+    box-shadow: 0px 8px 30px rgba(0,0,0,0.15);
+    width: 850px;
+    margin: auto;
+    text-align: center;
+}
+
+/* BI4BI Title */
+    
+
+/* Description Text */
+.desc {
+    font-size: 18px;
+    color: black;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Input Field Styling */
+.input-field {
+    width: 100%;
+    height: 50px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.input-container {
+    margin: 40px 0;
+}
+
+/* Button Styling */
+div.stButton > button {
+    background-color: #ffcc00;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 14px 160px;
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.18);
+    transition: 0.25s;
+    margin-top: 10px;
+   padding-left: 120px;
+    white-space: nowrap;
+    word-break: keep-all;
+}
+
+div.stButton > button:hover {
+    background-color: #ffcc00;
+    transform: scale(1.03);
+}
+
+/* Footer */
+.footer {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #999999;
+}
+
+/* Hide Streamlit input labels */
+.stTextInput > label {
+    display: none;
+}
+
+.stTextInput > div > div > input {
+    background-color: #f5f5f5 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 15px 20px !important;
+    font-size: 16px !important;
+    height: 50px !important;
+}
+
+/* Card wrapper styling - use JavaScript to add class */
+.card-column {
+    background: #ffffff !important;
+    padding: 60px 70px !important;
+    border-radius: 28px !important;
+    box-shadow: 0px 8px 30px rgba(0,0,0,0.15) !important;
+    text-align: center !important;
+}
+
+/* Style inputs spacing */
+.card-column .stTextInput {
+    margin-bottom: 20px !important;
+}
+
+.card-column .stButton {
+    margin: 30px 0 !important;
+}
+
+/* Target column with title */
+div[data-testid="column"]:has(.title) {
+    background: #ffffff !important;
+    padding: 60px 70px !important;
+    border-radius: 28px !important;
+    box-shadow: 0px 8px 30px rgba(0,0,0,0.15) !important;
+    text-align: center !important;
+}
+
+div[data-testid="column"]:has(.title) .stTextInput {
+    margin-bottom: 20px !important;
+}
+
+div[data-testid="column"]:has(.title) .stButton {
+    margin: 30px 0 !important;
+}
+
+/* Hide Streamlit branding & header for a cleaner look */
+#MainMenu { visibility: hidden; }
+footer { visibility: hidden; }
+header { visibility: hidden; }
+
+/* Container width & padding (support both old and new Streamlit DOM) */
+.block-container {
+    padding-top: 3rem;
+    padding-bottom: 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+[data-testid="block-container"] {
+    padding-top: 3rem !important;
+    padding-bottom: 2rem !important;
+    max-width: 700px !important;
+    margin: 0 auto !important;
+}
+
+/* Gradient pill buttons with shadow */
+.stButton > button {
+    width: 100%;
+    background: linear-gradient(135deg, #ffd54f 0%, #ffb74d 50%, #ff8f00 100%) !important;
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 0.75rem 1.5rem !important;
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.35) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(255, 140, 0, 0.45) !important;
+    background: linear-gradient(135deg, #ffe082 0%, #ffcc80 50%, #ffa726 100%) !important;
+}
+
+/* Centered title */
+h1, h2 {
+    text-align: center !important;
+    color: #2d2d2d !important;
+    font-weight: 700 !important;
+    margin-bottom: 2.5rem !important;
+}
+
+/* Column padding for spacing around buttons */
+div[data-testid="column"] {
+    padding: 0.5rem;
+}
+
+/* Optional: Force white app background */
+html, body, .stApp {
+    background-color: #ffffff !important;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    [data-testid="block-container"] {
+        padding-top: 2rem !important;
+        padding-bottom: 1.5rem !important;
+        max-width: 95% !important;
+    }
+    .stButton > button {
+        font-size: 1rem !important;
+        padding: 0.7rem 1.25rem !important;
+    }
+    h1 {
+        margin-bottom: 2rem !important;
+    }
+}
+
+page2.py code:-
+import streamlit as st
+from pathlib import Path
+
+# --- Page configuration (must be first and only once) ---
+st.set_page_config(page_title="Choose Tool", layout="centered", initial_sidebar_state="collapsed")
+
+# --- Load external CSS ---
+css_path = (Path(__file__).parent / "choose_tool.css").resolve()
+try:
+    with css_path.open("r", encoding="utf-8") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except FileNotFoundError:
+    st.error(f"Could not find CSS file at: {css_path}")
+except Exception as e:
+    st.error(f"Failed to load CSS: {e}")
+
+# --- UI ---
+st.markdown("# Choose Tool")
+
+# Row 1: Tableau, Oracle, Power BI
+col1, col2, col3 = st.columns(3)
+with col1:
+    if st.button("Tableau"):
+        st.session_state["selected_tool"] = "Tableau"
+        st.rerun()
+with col2:
+    if st.button("Oracle"):
+        st.session_state["selected_tool"] = "Oracle"
+        st.rerun()
+with col3:
+    if st.button("Power BI"):
+        st.session_state["selected_tool"] = "Power BI"
+        st.rerun()
+
+# Row 2: SAP, Qlik, Looker
+col4, col5, col6 = st.columns(3)
+with col4:
+    if st.button("SAP"):
+        st.session_state["selected_tool"] = "SAP"
+        st.rerun()
+with col5:
+    if st.button("Qlik"):
+        st.session_state["selected_tool"] = "Qlik"
+        st.rerun()
+with col6:
+    if st.button("Looker"):
+        st.session_state["selected_tool"] = "Looker"
+        st.rerun()
+
+# Back to Home - centered, wider
+st.markdown("<br>", unsafe_allow_html=True)
+_, back_col, _ = st.columns([1, 2, 1])
+with back_col:
+    if st.button("← Back to Home"):
+        if "selected_tool" in st.session_state:
+            del st.session_state["selected_tool"]
+        st.rerun()
+
+# Show selection if a tool was chosen
+if st.session_state.get("selected_tool"):
+    st.success(f"You selected **{st.session_state['selected_tool']}**")
